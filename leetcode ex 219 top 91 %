@@ -1,0 +1,25 @@
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        # greedy aproach for the structure
+        # set up dict to remember last index 
+        count_dict = {}
+        
+        # iterate
+        for i in range(len(list(nums))):
+        # if it is inside
+            if nums[i] in count_dict:
+            # if the condition met, note that i > count_dict[nums[i]] as diffuelt so no abs needed
+                if i - count_dict[nums[i]] <= k:
+                    return True
+                
+                count_dict[nums[i]] = i
+            else:
+                count_dict[nums[i]] = i
+        return False
+        
+        #run time 532 ms over 90% faster 
