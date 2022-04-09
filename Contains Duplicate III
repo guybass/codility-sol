@@ -1,0 +1,43 @@
+class Solution(object):
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
+        """
+        :type nums: List[int]
+        :type k: int
+        :type t: int
+        :rtype: bool
+        """
+        
+        """idea - let t be a natural in teger and let Zt be Z/tZ in sense of group theory
+         denote that |y - x| <= t iff for c1 = y//t+1 and c2 = x//t+1 then
+         Zc1 isomorphic to Zc2 or that |c1 - c2| = 1 and (WLG y> x) c2 > c1
+         so for a given t and k every moment we remember the last k numbers and check if the relevant co-set exist in the sense of the following operation x -> x//t+1
+         if it's not we check both the coset and the residue"""
+        
+        # setup the coset
+        cosets = {}
+        
+        # iterate over list
+        for i in range(len(list(nums))):
+            # take the equivalence representative
+            representive = nums[i]//(t+1)
+            r = nums[i]%(t+1)
+            
+            # check requairments
+            if representive in cosets:
+                return True
+            
+            elif (representive + 1 in cosets) and (r > cosets[representive + 1]):
+                return True
+                    
+            elif (representive - 1 in cosets) and (r < cosets[representive - 1]):
+                return True
+            
+            # remember the representive and the r
+            cosets[representive] = r 
+            
+            # remember only the right amount
+            if i >=k:
+                del cosets[(nums[i - k]//(t+1))]
+        
+        # if there was no sucses the return False
+        return False
