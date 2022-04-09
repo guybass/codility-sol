@@ -1,0 +1,53 @@
+class Solution(object):
+    def dim_reduction(slef, nums):
+        new_nums = [0]
+        t = 1
+        
+        if nums[0] >= 0:
+            sign = 1
+        else:
+            sign = -1
+            
+        for n in nums:
+            if sign * n>= 0:
+                new_nums[-1] += n
+            else:
+                t+=1
+                new_nums.append(n)
+                sign *= -1
+        return new_nums, t
+    
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # greedy algorithem
+        if 0 >= max(nums): return max(nums)
+        #setup sorted array (in the sense of summing every nigbhor with similar sign)
+        new_nums, m = self.dim_reduction(nums)
+        if m <= 2:
+            return max(new_nums)
+        
+        if new_nums[0] >= 0:
+            i=0
+        else:
+            i=1
+        
+        final = new_nums[i]
+        corent = int(final)
+
+        while i < m - 2: 
+            a = new_nums[i+1]
+            b = new_nums[i+2]
+            if 0 > corent + a:
+                corent = int(b)
+            elif a+b + corent > 0:
+                corent += a+b
+            else:
+                corent = int(b)
+            if corent > final:
+                final = int(corent)
+            i+=2
+    
+        return final
