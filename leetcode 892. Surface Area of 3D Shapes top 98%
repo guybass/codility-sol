@@ -1,0 +1,25 @@
+class Solution(object):
+    def surfaceArea(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        total = 0
+        
+        n = len(list(grid[0]))
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    total -= 2
+                else:
+                    if i == 0:
+                        if j == 0:
+                            total += grid[i][j]*4
+                        else:
+                            total += grid[i][j]*4  - 2*min(grid[i][j - 1], grid[i][j]) 
+                    else:
+                        if j == 0:
+                            total += grid[i][j]*4 - 2*min(grid[i - 1][j], grid[i][j])
+                        else:
+                            total += grid[i][j]*4 - 2*(min(grid[i][j - 1], grid[i][j]) + min(grid[i - 1][j], grid[i][j]))
+        return total + 2*n*n
