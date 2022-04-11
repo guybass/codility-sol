@@ -1,0 +1,19 @@
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        # bruote force is O(n^2)
+        # so lets sort
+        intervals.sort(key=lambda x: x[0])
+        final = [intervals[0]]
+        # now that the elemnts are sorted overlapping iff the b element of next interval is #equal or greater then corrent b or in this case the last element of last element of final
+        for interval in intervals:
+            if final[-1][1] >= interval[0]:
+                final[-1][1] = max(final[-1][1], interval[1])
+            else:
+                final.append(interval)
+        
+        return final
+        
