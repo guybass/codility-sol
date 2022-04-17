@@ -1,0 +1,49 @@
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        # perform binary search
+        if nums == []:
+            return [-1, -1]
+        
+        #set up var
+        left, right = 0, len(nums) - 1
+        mid = (right + left)//2  
+        final = [-1, -1]
+        
+        def find_right(nums, target, right, left, mid):
+            """find right index for terget, if not exist return -1"""
+            while right - 1 > left:
+                if nums[mid] > target:
+                    right = int(mid)
+                else:
+                    left = int(mid)
+                mid = (right + left)//2 
+            if nums[right] == target:
+                return right
+            if nums[left] == target:
+                return left
+            return -1
+         
+        def find_left(nums, target, right, left, mid):
+            """find left index for terget, if not exist return -1"""
+            
+            while right - 1 > left:
+                if nums[mid] < target:
+                    left = int(mid)
+                else:
+                    right = int(mid)
+                mid = (right + left)//2 
+            if nums[left] == target:
+                return left
+            if nums[right] == target:
+                return right
+            return -1
+        final[0] = find_left(nums, target, right, left, mid)
+        if final[0] == -1:
+            return final
+        final[1] = find_right(nums, target, right, left, mid)
+        return final
