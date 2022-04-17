@@ -1,0 +1,48 @@
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        def rotate_nums(nums, left, right, mid):
+            """ this function takes a rotated ascending array and return the index of
+            rotation """
+            while right - 1 > left:
+                if nums[mid] > nums[right]:
+                    left = int(mid)
+                else:
+                    right = int(mid)
+                mid = (right + left)//2
+            if nums[right] > nums[left]:
+                return right
+            else:
+                return left + 1
+        # use binary search + modulu calc
+        
+        #setup var
+        n = len(nums)
+        left, right = 0, n - 1
+        mid = (right + left)//2
+        
+        #if needed setup k
+        if nums[-1] < nums[0]:
+            k = rotate_nums(nums, left, right, mid)
+        else:
+            k = 0
+        while right - 1 > left:
+            if nums[(mid + k)%n] < target:
+                left = int(mid)
+            elif nums[(mid + k)%n] > target:
+                right = int(mid)
+            else:
+                return (mid + k)%n
+            mid = (right + left)//2
+        right = (right + k)%n
+        left = (left + k)%n
+        if nums[right] == target:
+            return right
+        elif nums[left] == target:
+            return left
+        return -1
+            
