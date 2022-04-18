@@ -1,0 +1,50 @@
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        # we will fuse 2 kind of binary search, first to find the row then the col
+        
+        
+        left, right = 0, len(matrix)-1
+        mid = (right+left)//2
+        
+        def find_row(matrix, target, left, right, mid):
+            """this function uses binarey search algorithem to find the row 
+            witch target might be in"""
+            while left < right -1:
+                if matrix[mid][0] > target:
+                    right = int(mid)
+                else:
+                    left = int(mid)
+                mid = (right+left)//2
+            if matrix[right][0] <= target and matrix[right][-1] >= target:
+                return right
+            elif matrix[left][0] <= target and matrix[left][-1] >= target:
+                return left
+            return -1
+        if right + 1 == 1:
+            row = 0
+        # get the row for the next serch
+        row = find_row(matrix, target, left, right, mid)
+        if row == -1:
+            return False
+        # now we binarey search over the row
+        left, right = 0, len(matrix[row]) - 1
+        mid = (right+left)//2
+        while right - 1 > left:
+            if matrix[row][mid] > target:
+                right = int(mid)
+            elif matrix[row][mid] < target:
+                left = int(mid)
+            else:
+                return True
+            mid = (right+left)//2
+        if matrix[row][left] == target:
+            return True
+        elif matrix[row][right] == target:
+            return True
+        return False
+        
