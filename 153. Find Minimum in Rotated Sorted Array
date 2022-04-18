@@ -1,0 +1,21 @@
+class Solution(object):
+    def findMin(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        #check for no rotation
+        if nums[-1] >= nums[0]:
+            return nums[0]
+        
+        left, right = 0 , len(nums) -1 
+        mid = (right+left)//2
+        while right - 1 > left:
+            if nums[mid] > nums[right]:
+                left = int(mid)
+            else:
+                right = int(mid)
+            mid = (right + left)//2
+        if nums[right] > nums[left]:
+            return nums[right]
+        return nums[left + 1]
