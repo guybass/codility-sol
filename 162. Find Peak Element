@@ -1,0 +1,33 @@
+class Solution(object):
+    def findPeakElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # use the idea of binarey search with the idea of gradient decent
+        
+        # set up "pointers"
+        left, right = 0, len(nums) - 1
+        mid = (right + left)//2
+        
+        #check-side peacks
+        if left == right:
+            return 0
+        elif nums[right] > nums[right - 1]:
+            return right
+        elif nums[left] > nums[left + 1]:
+            return left
+        
+        # iterate- for each iteration takes the middle and change pointers by the 
+        # derivative of the slope, basiclly we consider the plotline betwean the points
+        while right - 1 > left:
+            # check for a peak
+            if nums[mid] > nums[mid + 1] and nums[mid] > nums[mid - 1]:
+                return mid
+            elif nums[mid + 1] > nums[mid]:
+                left = int(mid)
+            elif nums[mid - 1] > nums[mid]:
+                right = int(mid)
+            else:
+                right = int(mid)
+            mid = (right + left)//2
