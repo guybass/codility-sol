@@ -1,0 +1,47 @@
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        #note that string is an anagram of another string if they the same amount of 
+        # letters per letter 
+        
+        # make data struvture so save time complex
+        dict_of_s = {}
+        
+        #set var that is intrinzic
+        n_p, n_s, res = len(p), len(s), []
+        
+        #simple check
+        if n_p > n_s:
+            return res
+        
+        #count the amount of each cahr in string
+        for c in p:
+            dict_of_s[c] = dict_of_s.get(c, 0) + 1
+        print(dict_of_s, n_s, n_p)
+        
+        # inisalize the validator
+        for i in range(n_p):
+            dict_of_s[s[i]] = dict_of_s.get(s[i], 0) - 1
+            if dict_of_s[s[i]] == 0:
+                del dict_of_s[s[i]]
+               
+        # dict_of_s counts how much letters we are missing and if is 0 we delete 
+        for i in range(n_s - n_p):
+            if len(dict_of_s) == 0:
+                res.append(i)
+            dict_of_s[s[i]] = dict_of_s.get(s[i], 0) + 1
+            dict_of_s[s[i+n_p]] = dict_of_s.get(s[i+n_p], 0) - 1
+            if dict_of_s[s[i+n_p]] == 0:
+                del dict_of_s[s[i+n_p]]
+            if dict_of_s.get(s[i], 1) == 0:
+                del dict_of_s[s[i]]
+        
+        # we need 1 more check
+        if len(dict_of_s) == 0:
+            res.append(n_s - n_p)
+        
+        return res
