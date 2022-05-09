@@ -1,0 +1,29 @@
+class Solution {
+    public String interpret(String command) {
+        StringBuilder sb_f = new StringBuilder();
+        char tempo = 'b';
+        int i = 0;
+        while (i<command.length()){
+            tempo = command.charAt(i);
+            if (tempo == 'G'){
+                sb_f.append('G');
+            }
+            else {
+                i++;
+                tempo = command.charAt(i);
+                if (tempo == ')'){
+                    sb_f.append('o');
+                }
+                else{
+                    i+=2;
+                    sb_f.append('a');
+                    sb_f.append('l');
+                }
+            }
+            i++;
+        }
+        return sb_f.toString();
+        
+        
+    }
+}
