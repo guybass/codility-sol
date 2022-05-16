@@ -1,0 +1,37 @@
+class Solution(object):
+    def shortestPathBinaryMatrix(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        # We uses Breadth-first search Algo, we think on (0,0) as the head and in each      
+        # iteration we add the next lvl of the tree witch are the valid points conected
+        # every leyer represents the length we walked. If we finished we return length
+        
+        # first of all check for valid solution
+        if grid[0][0] != 0 or grid[-1][-1] != 0:
+            return -1
+        
+        # set up structure
+        q, n = collections.deque(), len(grid) # q hold the corent lvl of the tree
+        q.append([0,0,1])
+        grid[0][0] = 1
+        
+        #do Breadth-first search algorithm
+        while q:
+            [row, col, length] = q.popleft() # take a valid apoint and add the negibor
+            if row == n -1 and col == n-1: # we win
+                return length
+            # iterate the next lvl of the tree
+            for r, c in [(-1,0), (0,-1), (1,0), (0,1), (-1,1), (-1,-1), (1,-1), (1,1)]:
+                #checj for valid place on the grid
+                if row + r >= 0 and row + r < n and col+c>=0 and col+c < n:
+                    #check for valid point in dariction
+                    if grid[row + r][col + c] == 0:
+                        #add the next lvl of the tree
+                        q.append([row+r, col+c, length+1]) # add a node to the lvl
+                        grid[row + r][col + c] = 1 # make sure we dont repeat this place
+        # if we got out witch means we finished the tree and there is no conection
+        
+        return -1
+                        
